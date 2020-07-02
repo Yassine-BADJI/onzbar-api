@@ -25,7 +25,7 @@ pip install virtualenv
 
 Creer votre environement virtuel via pip
 ```bash
-cd chemin_du_repo/stoned_api
+cd chemin_du_repo/onzbar-api
 virtualenv ../onzbar-api_env
 ```
 

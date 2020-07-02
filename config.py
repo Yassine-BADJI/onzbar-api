@@ -17,9 +17,9 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgres://wdbjcwvtwqrepa' \
-                              ':cee8af49d68c54942189e2d9688e7fa5f2d2b6d00f9dd0e8d4bd90febacf4b24@ec2-54-228-250-82.eu' \
-                              '-west-1.compute.amazonaws.com:5432/d5d3577l6fd3ac'
+    SQLALCHEMY_DATABASE_URI = 'postgres://rbnyeloycqjuay' \
+                              ':30c2fab0c969a756ce0661acf4123d026d92daf058cf2b08d33db2a0fad5646f@ec2-54-246-115-40.eu' \
+                              '-west-1.compute.amazonaws.com:5432/dfapcr3i52hgra '
 
 
 config_by_name = dict(

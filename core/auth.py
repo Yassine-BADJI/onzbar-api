@@ -36,7 +36,7 @@ def add_new_user(data):
                      age=data['age'])
     db.session.add(new_user)
     db.session.commit()
-    send_welcome(new_user.email)
+    # send_welcome(new_user.email)
 
 
 def get_a_user(user_id):
@@ -49,16 +49,15 @@ def get_all_users():
     users = Users.query.all()
     return users
 
+
 def set_user(current_user, id, data):
     check_current_user(current_user, id)
     user = get_a_user(id)
-    hashed_password = generate_password_hash(data['password'], method='sha256')
-    user.email=data['email'],
-                 password=hashed_password,
-                 first_name=data['first_name'],
-                 last_name=data['last_name'],
-                 age=data['age'])
-    db.session.commit(user)
+    user.email = data['email']
+    user.first_name = data['first_name']
+    user.last_name = data['last_name']
+    user.age = data['age']
+    db.session.commit()
 
 
 def send_welcome(user_email):
