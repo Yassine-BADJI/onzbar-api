@@ -4,9 +4,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    # SECRET_KEY = os.getenv('SECRET_KEY')
-    SECRET_KEY = 'thisissecretkeytest'
-    SENDGRID_KEY = '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'
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+    SENDGRID_KEY = os.environ.get("SENDGRID_KEY")
 
 
 class DevelopmentConfig(Config):
@@ -17,9 +16,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgres://rbnyeloycqjuay' \
-                              ':30c2fab0c969a756ce0661acf4123d026d92daf058cf2b08d33db2a0fad5646f@ec2-54-246-115-40.eu' \
-                              '-west-1.compute.amazonaws.com:5432/dfapcr3i52hgra '
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 
 config_by_name = dict(
