@@ -2,12 +2,12 @@ from flask import request
 from flask_restplus import Namespace, Resource, fields
 
 from apis.comun import token_required
-from core.auth import add_new_user, check_is_admin, get_a_user, get_all_users, user_login, check_current_user
+from core.auth import add_new_user, check_is_admin, get_a_user, get_all_users, user_login, check_current_user, set_user
 from model import db
 
 api = Namespace('users', description='User login authenfication')
 
-user_create_input = api.model('User', {
+user_create_input = api.model('User created input', {
     'email': fields.String(required=True, description='The user email'),
     'password': fields.String(required=True, description='The user name'),
     'first_name': fields.String(required=True, description='The user first name'),
@@ -15,12 +15,11 @@ user_create_input = api.model('User', {
     'age': fields.String(required=True, description='The user age'),
 })
 
-user_update_input = api.model('User', {
-    'email': fields.String(required=False, description='The user email'),
-    'password': fields.String(required=False, description='The user name'),
-    'first_name': fields.String(required=False, description='The user first name'),
-    'last_name': fields.String(required=False, description='The user last name'),
-    'age': fields.String(required=False, description='The user age'),
+user_update_input = api.model('User update input', {
+    'email': fields.String(required=True, description='The user email'),
+    'first_name': fields.String(required=True, description='The user first name'),
+    'last_name': fields.String(required=True, description='The user last name'),
+    'age': fields.String(required=True, description='The user age'),
 })
 
 
@@ -137,27 +136,32 @@ class UsersId(Resource):
         return {'user': user_data}
 
     @api.doc(security='apikey', description="""
-        <b>Promote admin a specific user</b></br></br>
+        <b>Change value of a specific user</b></br></br>
 
             AUTHORIZATION :
 
-                Requires an user encoded token for use this endpoint in the scope : 'onzbar:admin'
+                Requires an user encoded token for use this endpoint in the scope : 'onzbar:user' or 'onzbar:admin'
 
             DESCRIPTION :
 
-                Promote an user administrator (by id)
+                Update values of a specific user (by id)
 
             REQUEST :
 
                 PUT/users/{id}
+                {
+                "email": "user email"
+                "first_name": "user first name"
+                "last_name": "user last name"
+                "age": "user age"
+                }
     """)
     @token_required
+    @api.expect(user_update_input)
     def put(self, current_user, id):
-        check_is_admin(self)
-        user = get_a_user(id)
-        user.admin = True
-        db.session.commit()
-        return {'message': 'The user has been promoted!'}
+        data = request.get_json()
+        set_user(self, id, data)
+        return {'message': 'The user has been update!'}
 
     @api.doc(security='apikey', description="""
         <b>Delete a specific user</b></br></br>
@@ -183,33 +187,27 @@ class UsersId(Resource):
         return {'message': 'The user has been deleted!'}
 
 
-@api.route('/<int:id>')
-class UsersIdUpdate(Resource):
+@api.route('/admin/<int:id>')
+class UsersAdmin(Resource):
     @api.doc(security='apikey', description="""
-        <b>Change value of a specific user</b></br></br>
+        <b>Promote admin a specific user</b></br></br>
 
             AUTHORIZATION :
 
-                Requires an user encoded token for use this endpoint in the scope : 'onzbar:user' or 'onzbar:admin'
+                Requires an user encoded token for use this endpoint in the scope : 'onzbar:admin'
 
             DESCRIPTION :
 
-                Update values of a specific user (by id)
+                Promote an user administrator (by id)
 
             REQUEST :
 
                 PUT/users/{id}
-                {
-                "email": "user email"
-                "password": "user password"
-                "first_name": "user first name"
-                "last_name": "user last name"
-                "age": "user age"
-                }
     """)
     @token_required
-    @api.expect(user_update_input)
     def put(self, current_user, id):
-        data = request.get_json()
-        set_user(self, id, data)
+        check_is_admin(self)
+        user = get_a_user(id)
+        user.admin = True
+        db.session.commit()
         return {'message': 'The user has been promoted!'}
