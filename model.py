@@ -1,3 +1,5 @@
+from sqlalchemy import ForeignKey
+
 from extensions import db
 
 
@@ -12,6 +14,7 @@ class Users(db.Model):
     last_name = db.Column(db.String(50))
     age = db.Column(db.String(50))
     admin = db.Column(db.Boolean, default=False)
+    favorites = db.relationship('Favorites', backref='users')
 
 
 class Bars(db.Model):
@@ -24,3 +27,13 @@ class Bars(db.Model):
     adress = db.Column(db.String(150))
     latitude = db.Column(db.String(150))
     longitude = db.Column(db.String(150))
+    favorites = db.relationship('Favorites', backref='bars')
+
+
+class Favorites(db.Model):
+    """ Favorites Model for storing favorites user bars """
+    __tablename__ = "Favorites"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey("Users.id"), nullable=False)
+    bar_id = db.Column(db.Integer, ForeignKey("Bars.id"), nullable=False)

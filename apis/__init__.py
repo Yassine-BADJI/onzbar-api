@@ -3,6 +3,7 @@ from flask_restplus import Api
 from .hello import api as ns_hello
 from .auth import api as ns_auth
 from .bars import api as ns_bars
+from .favorites import api as ns_favorites
 
 authorizations = {
     'apikey': {
@@ -22,3 +23,4 @@ api = Api(
 api.add_namespace(ns_hello)
 api.add_namespace(ns_auth)
 api.add_namespace(ns_bars)
+api.add_namespace(ns_favorites)
