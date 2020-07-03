@@ -12,15 +12,3 @@ class Users(db.Model):
     last_name = db.Column(db.String(50))
     age = db.Column(db.String(50))
     admin = db.Column(db.Boolean, default=False)
-
-
-class Bars(db.Model):
-    """ Bars Model for storing bars details """
-    __tablename__ = "Bars"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    description = db.Column(db.Text())
-    adress = db.Column(db.String(150))
-    latitude = db.Column(db.String(150))
-    longitude = db.Column(db.String(150))
