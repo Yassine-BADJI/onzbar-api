@@ -150,10 +150,10 @@ class UsersId(Resource):
 
                 PUT/users/{id}
                 {
-                "email": "user email"
-                "first_name": "user first name"
-                "last_name": "user last name"
-                "age": "user age"
+                    "email": "user email"
+                    "first_name": "user first name"
+                    "last_name": "user last name"
+                    "age": "user age"
                 }
     """)
     @token_required
