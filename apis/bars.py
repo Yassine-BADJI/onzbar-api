@@ -9,7 +9,7 @@ from model import db
 api = Namespace('bars', description='Bars path')
 
 bar_create_input = api.model(
-    'Bar update input', {
+    'Bar create input', {
         'name': fields.String(required=True, description='The bars name'),
         'description': fields.String(required=True, description='The bars description'),
         'adress': fields.String(required=True, description='The bars adress'),
@@ -56,12 +56,12 @@ class Bars(Resource):
             output.append(bar_data)
         return {'bars': output}
 
-    @api.doc(description="""
+    @api.doc(security='apikey', description="""
         <b>Registered a bar</b></br></br>
 
             AUTHORIZATION :
 
-                Requires an bar encoded token for use this endpoint in the scope : 'onzbar:user' or 'onzbar:admin'
+                Requires an user encoded token for use this endpoint in the scope : 'onzbar:user' or 'onzbar:admin'
 
             DESCRIPTION :
 
@@ -78,7 +78,8 @@ class Bars(Resource):
                 }
     """)
     @api.expect(bar_create_input)
-    def post(self):
+    @token_required
+    def post(self, current_user):
         data = request.get_json()
         add_new_bar(data)
         return {'message': 'New bar created!'}, 200
