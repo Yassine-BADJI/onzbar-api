@@ -1,8 +1,8 @@
-"""add_happyhour
+"""add_price_function
 
-Revision ID: b05bf518c1f7
+Revision ID: 86f222fa084b
 Revises: d32ef5ebb15c
-Create Date: 2020-07-06 20:12:06.923175
+Create Date: 2020-07-06 20:35:09.898826
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b05bf518c1f7'
+revision = '86f222fa084b'
 down_revision = 'd32ef5ebb15c'
 branch_labels = None
 depends_on = None
