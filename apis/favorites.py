@@ -1,6 +1,7 @@
 from flask_restplus import Namespace, Resource
 
 from apis.comun import token_required
+from core.bars import get_a_bar
 from core.favorites import get_favorites_by, add_new_favorites, get_all_favorites_by
 from model import db
 
@@ -29,8 +30,14 @@ class Favorites(Resource):
         favorites = get_all_favorites_by('user_id', self.id)
         output_favorite = []
         for favorite in favorites:
-            favorite_data = {'id': favorite.id,
-                             'bar_id': favorite.bar_id}
+            bar = get_a_bar(favorite.bar_id)
+            favorite_data = {
+                    'id': favorite.id,
+                    'bar_id': bar.id,
+                    'name': bar.name,
+                    'description': bar.description,
+                    'adress': bar.adress
+            }
             output_favorite.append(favorite_data)
         return {'favorites': output_favorite}
 
