@@ -4,6 +4,7 @@ from flask_restplus import Namespace, Resource, fields
 from apis.comun import token_required
 from core.auth import check_is_admin, check_current_user
 from core.bars import add_new_bar, get_a_bar, get_all_bars, set_bar
+from core.drinks import get_min_drink
 from model import db
 
 api = Namespace('bars', description='Bars path')
@@ -111,13 +112,22 @@ class barsId(Resource):
     @token_required
     def get(self, current_user, id):
         bar = get_a_bar(id)
-        bar_data = {'bar_id': bar.id,
-                    'name': bar.name,
-                    'openhour': bar.openhour,
-                    'happyhour': bar.happyhour,
-                    'description': bar.description,
-                    'adress': bar.adress}
-        return {'bar': bar_data}
+        bar_data = {
+            'bar_id': bar.id,
+            'name': bar.name,
+            'openhour': bar.openhour,
+            'happyhour': bar.happyhour,
+            'description': bar.description,
+            'adress': bar.adress,
+        }
+        drink = get_min_drink(id)
+        drink_data = {
+            'name': drink.name,
+            'price': drink.price,
+            'price_happyhour': drink.price_happyhour,
+            'description': drink.description,
+        }
+        return {'bar': bar_data, 'low_drink': drink_data}
 
     @api.doc(security='apikey', description="""
         <b>Change value of a specific bar</b></br></br>
