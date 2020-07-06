@@ -8,6 +8,8 @@ from model import Drinks
 def add_new_drinks(data, bar_id):
     new_drink = Drinks(
         name=data['name'],
+        price=data['price'],
+        price_happyhour=data['price_happyhour'],
         description=data['description'],
         price=data['price'],
         bar_id=bar_id,

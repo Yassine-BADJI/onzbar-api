@@ -14,6 +14,8 @@ def add_new_bar(data):
     new_bar = Bars(
         name=data['name'],
         description=data['description'],
+        openhour=data['openhour'],
+        happyhour=data['happyhour'],
         adress=data['adress'],
         latitude=xyz.get("latitude"),
         longitude=xyz.get("longitude"),
@@ -36,6 +38,8 @@ def get_all_bars():
 def set_bar(id, data):
     bar = get_a_bar(id)
     bar.name = data['name']
+    bar.openhour = data['openhour']
+    bar.happyhour = data['happyhour']
     bar.description = data['description']
     db.session.commit()
 
