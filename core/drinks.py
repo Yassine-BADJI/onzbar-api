@@ -11,7 +11,6 @@ def add_new_drinks(data, bar_id):
         price=data['price'],
         price_happyhour=data['price_happyhour'],
         description=data['description'],
-        price=data['price'],
         bar_id=bar_id,
     )
     db.session.add(new_drink)
