@@ -24,6 +24,7 @@ class Bars(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     description = db.Column(db.Text())
+    avg = db.Column(db.Float)
     adress = db.Column(db.String(150))
     latitude = db.Column(db.String(150))
     longitude = db.Column(db.String(150))
@@ -47,5 +48,6 @@ class Drinks(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     description = db.Column(db.Text())
+    price = db.Column(db.Float)
     bar_id = db.Column(db.Integer, ForeignKey("Bars.id"), nullable=False)
 
