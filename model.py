@@ -28,6 +28,7 @@ class Bars(db.Model):
     latitude = db.Column(db.String(150))
     longitude = db.Column(db.String(150))
     favorites = db.relationship('Favorites', backref='bars')
+    drinks = db.relationship('Drinks', backref='bars')
 
 
 class Favorites(db.Model):
@@ -37,3 +38,14 @@ class Favorites(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey("Users.id"), nullable=False)
     bar_id = db.Column(db.Integer, ForeignKey("Bars.id"), nullable=False)
+
+
+class Drinks(db.Model):
+    """ Drinks Model for storing Drinks into the bars """
+    __tablename__ = "Drinks"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    description = db.Column(db.Text())
+    bar_id = db.Column(db.Integer, ForeignKey("Bars.id"), nullable=False)
+

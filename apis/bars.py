@@ -127,7 +127,7 @@ class barsId(Resource):
                 PUT/bars/{id}
                 {
                     "name": "bar name"
-                    "description": bar description"
+                    "description": "bar description"
                 }
     """)
     @token_required
