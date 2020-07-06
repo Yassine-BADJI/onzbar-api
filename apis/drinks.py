@@ -11,7 +11,8 @@ drinks_create_input = api.model(
     'Drinks create input', {
         'name': fields.String(required=True, description='The drink name'),
         'description': fields.String(required=True, description='The drink description'),
-        'price': fields.Float(required=True, description='The drink price'),
+        'price': fields.String(required=True, description='The drink price'),
+        'price_happyhour': fields.String(required=True, description='The drink happy hour price'),
     }
 )
 
@@ -40,8 +41,9 @@ class Drinks(Resource):
         for drink in drinks:
             drink_data = {'id': drink.id,
                           'name': drink.name,
-                          'description': drink.description,
                           'price': drink.price,
+                          'price_happyhour': drink.price_happyhour,
+                          'description': drink.description,
                           'bar_id': drink.bar_id}
             output_drink.append(drink_data)
         return {'drinks': output_drink}
@@ -63,6 +65,8 @@ class Drinks(Resource):
                 {
                     "name": "drink name"
                     "description": "drink description"
+                    "price": "drink price"
+                    "price_happyhour": "drink price happy hour"
                 }
        """)
     @api.expect(drinks_create_input)

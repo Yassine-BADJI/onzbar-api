@@ -12,6 +12,8 @@ bar_create_input = api.model(
     'Bar create input', {
         'name': fields.String(required=True, description='The bars name'),
         'description': fields.String(required=True, description='The bars description'),
+        'openhour': fields.String(required=True, description='The bars hour'),
+        'happyhour': fields.String(required=True, description='The bars happy hour'),
         'adress': fields.String(required=True, description='The bars adress'),
         'encoded_loc': fields.String(required=True, description='The bars encoded localisation'),
     }
@@ -21,6 +23,8 @@ bar_update_input = api.model(
     'Bar update input', {
         'name': fields.String(required=True, description='The bars name'),
         'description': fields.String(required=True, description='The bars description'),
+        'openhour': fields.String(required=True, description='The bars hour'),
+        'happyhour': fields.String(required=True, description='The bars happy hour'),
     }
 )
 
@@ -72,7 +76,9 @@ class Bars(Resource):
                 POST/bars/
                 {
                     "name": "bar name"
-                    "description": bar description"
+                    "description": "bar description"
+                    "openhour": "bar hour"
+                    "happyhour": "bar happy hour"
                     "adress": "bar adress"
                     "encoded_loc": "bar encoded localisation"
                 }
@@ -107,6 +113,8 @@ class barsId(Resource):
         bar = get_a_bar(id)
         bar_data = {'bar_id': bar.id,
                     'name': bar.name,
+                    'openhour': bar.openhour,
+                    'happyhour': bar.happyhour,
                     'description': bar.description,
                     'adress': bar.adress}
         return {'bar': bar_data}
@@ -128,6 +136,8 @@ class barsId(Resource):
                 {
                     "name": "bar name"
                     "description": "bar description"
+                    "openhour": "bar hour"
+                    "happyhour": "bar happy hour"
                 }
     """)
     @token_required
