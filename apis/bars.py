@@ -112,18 +112,13 @@ class barsId(Resource):
     @token_required
     def get(self, current_user, id):
         bar = get_a_bar(id)
-        drink = get_min_drink(id)
         bar_data = {
             'bar_id': bar.id,
-            'bar_name': bar.name,
+            'name': bar.name,
             'openhour': bar.openhour,
             'happyhour': bar.happyhour,
-            'bar_description': bar.description,
+            'description': bar.description,
             'adress': bar.adress,
-            'drink_name': drink.name,
-            'price': drink.price,
-            'price_happyhour': drink.price_happyhour,
-            'drink_description': drink.description,
         }
         return {'bar': bar_data}
 
