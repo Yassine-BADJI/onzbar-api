@@ -15,6 +15,7 @@ class Users(db.Model):
     age = db.Column(db.String(50))
     admin = db.Column(db.Boolean, default=False)
     favorites = db.relationship('Favorites', backref='users')
+    grades = db.relationship('Grades', backref='users')
 
 
 class Bars(db.Model):
@@ -32,6 +33,7 @@ class Bars(db.Model):
     longitude = db.Column(db.String(150))
     favorites = db.relationship('Favorites', backref='bars')
     drinks = db.relationship('Drinks', backref='bars')
+    grades = db.relationship('Grades', backref='bars')
 
 
 class Favorites(db.Model):
@@ -53,4 +55,15 @@ class Drinks(db.Model):
     price = db.Column(db.Float)
     price_happyhour = db.Column(db.Float)
     bar_id = db.Column(db.Integer, ForeignKey("Bars.id"), nullable=False)
+
+
+class Grades(db.Model):
+    """ Grades Model for storing bars Grades """
+    __tablename__ = "Grades"
+
+    id = db.Column(db.Integer, primary_key=True)
+    evaluation = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, ForeignKey("Users.id"), nullable=False)
+    bar_id = db.Column(db.Integer, ForeignKey("Bars.id"), nullable=False)
+
 
