@@ -120,14 +120,7 @@ class barsId(Resource):
             'description': bar.description,
             'adress': bar.adress,
         }
-        drink = get_min_drink(id)
-        drink_data = {
-            'name': drink.name,
-            'price': drink.price,
-            'price_happyhour': drink.price_happyhour,
-            'description': drink.description,
-        }
-        return {'bar': bar_data, 'low_drink': drink_data}
+        return {'bar': bar_data}
 
     @api.doc(security='apikey', description="""
         <b>Change value of a specific bar</b></br></br>
