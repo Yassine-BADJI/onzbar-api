@@ -5,6 +5,7 @@ from .auth import api as ns_auth
 from .bars import api as ns_bars
 from .favorites import api as ns_favorites
 from .drinks import api as ns_drinks
+from .grades import api as ns_grades
 
 authorizations = {
     'apikey': {
@@ -26,3 +27,4 @@ api.add_namespace(ns_auth)
 api.add_namespace(ns_bars)
 api.add_namespace(ns_favorites)
 api.add_namespace(ns_drinks)
+api.add_namespace(ns_grades)
