@@ -29,7 +29,7 @@ class Grades(Resource):
                 REQUEST :
 
                     GET/grades/{bar_id}
-        """)    
+        """)
     @token_required
     def get(self, current_user, id_bar):
         avg = get_grades_average(id_bar)
