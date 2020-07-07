@@ -11,8 +11,8 @@ drinks_create_input = api.model(
     'Drinks create input', {
         'name': fields.String(required=True, description='The drink name'),
         'description': fields.String(required=True, description='The drink description'),
-        'price': fields.String(required=True, description='The drink price'),
-        'price_happyhour': fields.String(required=True, description='The drink happy hour price'),
+        'price': fields.Float(required=True, description='The drink price'),
+        'price_happyhour': fields.Float(required=True, description='The drink happy hour price'),
     }
 )
 

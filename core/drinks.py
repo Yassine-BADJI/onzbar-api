@@ -30,7 +30,10 @@ def get_all_drinks_by(search, value):
 
 
 def get_min_drink(bar_id):
-    drink = Drinks.query.filter_by(bar_id=bar_id).having(func.min(Drinks.price_happyhour)).first()
+    drink = Drinks.query.filter_by(bar_id=bar_id)\
+        .group_by(Drinks.bar_id)\
+        .having(func.min(Drinks.price_happyhour))\
+        .first()
     return drink
 
 
