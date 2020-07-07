@@ -112,22 +112,20 @@ class barsId(Resource):
     @token_required
     def get(self, current_user, id):
         bar = get_a_bar(id)
+        drink = get_min_drink(id)
         bar_data = {
             'bar_id': bar.id,
-            'name': bar.name,
+            'bar_name': bar.name,
             'openhour': bar.openhour,
             'happyhour': bar.happyhour,
-            'description': bar.description,
+            'bar_description': bar.description,
             'adress': bar.adress,
-        }
-        drink = get_min_drink(id)
-        drink_data = {
-            'name': drink.name,
+            'drink_name': drink.name,
             'price': drink.price,
             'price_happyhour': drink.price_happyhour,
-            'description': drink.description,
+            'drink_description': drink.description,
         }
-        return {'bar': bar_data, 'low_drink': drink_data}
+        return {'bar': bar_data}
 
     @api.doc(security='apikey', description="""
         <b>Change value of a specific bar</b></br></br>
