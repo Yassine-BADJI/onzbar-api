@@ -14,6 +14,7 @@ def add_new_bar(data):
     new_bar = Bars(
         name=data['name'],
         description=data['description'],
+        avg=0,
         openhour=data['openhour'],
         happyhour=data['happyhour'],
         adress=data['adress'],
