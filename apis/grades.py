@@ -33,7 +33,7 @@ class Grades(Resource):
     @token_required
     def get(self, current_user, id_bar):
         avg = get_grades_average(id_bar)
-        return {'avg': avg}
+        return {'avg':  str(avg)}
 
     @api.doc(security='apikey', description="""
            <b>Add grades for one bar</b></br></br>
