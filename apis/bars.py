@@ -2,9 +2,8 @@ from flask import request
 from flask_restplus import Namespace, Resource, fields
 
 from apis.comun import token_required
-from core.auth import check_is_admin, check_current_user
+from core.auth import check_is_admin
 from core.bars import add_new_bar, get_a_bar, get_all_bars, set_bar
-from core.drinks import get_min_drink
 from model import db
 
 api = Namespace('bars', description='Bars path')
