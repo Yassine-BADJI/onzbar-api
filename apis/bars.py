@@ -2,16 +2,18 @@ from flask import request
 from flask_restplus import Namespace, Resource, fields
 
 from apis.comun import token_required
-from core.auth import check_is_admin, check_current_user
+from core.auth import check_is_admin
 from core.bars import add_new_bar, get_a_bar, get_all_bars, set_bar
 from model import db
 
 api = Namespace('bars', description='Bars path')
 
 bar_create_input = api.model(
-    'Bar update input', {
+    'Bar create input', {
         'name': fields.String(required=True, description='The bars name'),
         'description': fields.String(required=True, description='The bars description'),
+        'openhour': fields.String(required=True, description='The bars hour'),
+        'happyhour': fields.String(required=True, description='The bars happy hour'),
         'adress': fields.String(required=True, description='The bars adress'),
         'encoded_loc': fields.String(required=True, description='The bars encoded localisation'),
     }
@@ -21,6 +23,8 @@ bar_update_input = api.model(
     'Bar update input', {
         'name': fields.String(required=True, description='The bars name'),
         'description': fields.String(required=True, description='The bars description'),
+        'openhour': fields.String(required=True, description='The bars hour'),
+        'happyhour': fields.String(required=True, description='The bars happy hour'),
     }
 )
 
@@ -56,12 +60,12 @@ class Bars(Resource):
             output.append(bar_data)
         return {'bars': output}
 
-    @api.doc(description="""
+    @api.doc(security='apikey', description="""
         <b>Registered a bar</b></br></br>
 
             AUTHORIZATION :
 
-                Requires an bar encoded token for use this endpoint in the scope : 'onzbar:user' or 'onzbar:admin'
+                Requires an user encoded token for use this endpoint in the scope : 'onzbar:user' or 'onzbar:admin'
 
             DESCRIPTION :
 
@@ -72,13 +76,16 @@ class Bars(Resource):
                 POST/bars/
                 {
                     "name": "bar name"
-                    "description": bar description"
+                    "description": "bar description"
+                    "openhour": "bar hour"
+                    "happyhour": "bar happy hour"
                     "adress": "bar adress"
                     "encoded_loc": "bar encoded localisation"
                 }
     """)
     @api.expect(bar_create_input)
-    def post(self):
+    @token_required
+    def post(self, current_user):
         data = request.get_json()
         add_new_bar(data)
         return {'message': 'New bar created!'}, 200
@@ -104,10 +111,14 @@ class barsId(Resource):
     @token_required
     def get(self, current_user, id):
         bar = get_a_bar(id)
-        bar_data = {'bar_id': bar.id,
-                    'name': bar.name,
-                    'description': bar.description,
-                    'adress': bar.adress}
+        bar_data = {
+            'bar_id': bar.id,
+            'name': bar.name,
+            'openhour': bar.openhour,
+            'happyhour': bar.happyhour,
+            'description': bar.description,
+            'adress': bar.adress,
+        }
         return {'bar': bar_data}
 
     @api.doc(security='apikey', description="""
@@ -126,7 +137,9 @@ class barsId(Resource):
                 PUT/bars/{id}
                 {
                     "name": "bar name"
-                    "description": bar description"
+                    "description": "bar description"
+                    "openhour": "bar hour"
+                    "happyhour": "bar happy hour"
                 }
     """)
     @token_required
