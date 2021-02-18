@@ -23,6 +23,9 @@ def add_new_bar(data):
     )
     db.session.add(new_bar)
     db.session.commit()
+    db.session.flush()
+    db.session.refresh(new_bar)
+    print(new_bar.id)
 
 
 def get_a_bar(bar_id):
