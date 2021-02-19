@@ -1,9 +1,10 @@
 from flask import request
 from flask_restplus import Namespace, Resource, fields
+from werkzeug.datastructures import FileStorage
 
 from apis.comun import token_required
 from core.auth import check_is_admin
-from core.bars import add_new_bar, get_a_bar, get_all_bars, set_bar
+from core.bars import add_new_bar, get_a_bar, get_all_bars, set_bar, add_picture
 from model import db
 
 api = Namespace('bars', description='Bars path')
@@ -27,6 +28,9 @@ bar_update_input = api.model(
         'happyhour': fields.String(required=True, description='The bars happy hour'),
     }
 )
+
+upload_parser = api.parser()
+upload_parser.add_argument('picture', location='files', type=FileStorage)
 
 
 @api.route('/')
@@ -83,11 +87,14 @@ class Bars(Resource):
                     "encoded_loc": "bar encoded localisation"
                 }
     """)
-    @api.expect(bar_create_input)
+    @api.expect(upload_parser, bar_create_input)
     @token_required
     def post(self, current_user):
         data = request.get_json()
-        add_new_bar(data)
+        args = upload_parser.parse_args()
+        image = args['picture']
+        url_image = add_picture(data, image)
+        add_new_bar(data, url_image)
         return {'message': 'New bar created!'}, 200
 
 

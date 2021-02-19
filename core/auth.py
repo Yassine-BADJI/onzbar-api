@@ -36,7 +36,7 @@ def add_new_user(data):
                      age=data['age'])
     db.session.add(new_user)
     db.session.commit()
-    send_welcome(new_user.email)
+    #send_welcome(new_user.email)
 
 
 def get_a_user(user_id):

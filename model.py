@@ -24,6 +24,7 @@ class Bars(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
+    image = db.Column(db.Text())
     description = db.Column(db.Text())
     avg = db.Column(db.Float)
     openhour = db.Column(db.String(50))
